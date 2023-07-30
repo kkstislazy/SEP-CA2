@@ -19,11 +19,11 @@ app.get('/api/getMember', function (req, res) {
     var email = req.query.email;
     member.getMember(email)
         .then((result) => {
-            res.send(result);
+            return res.send(result);
         })
         .catch((err) => {
             console.log(err);
-            res.status(500).send("Failed to get member");
+            return res.status(500).send("Failed to get member");
         });
 });
 

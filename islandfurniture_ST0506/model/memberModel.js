@@ -95,6 +95,11 @@ var memberDB = {
                             conn.end();
                             return reject(err);
                         } else {
+                            if (result.length == 0){
+                                conn.end();
+                                return reject(new Error('Member not found with the given email'));
+                            } else {
+                        
                             var member = new Member();
                             member.id = result[0].ID;
                             member.dob = result[0].DOB;
@@ -125,7 +130,9 @@ var memberDB = {
                             member.wishlistId = result[0].WISHLIST_ID;
                             member.stripeCustomerId = result[0].STRIPECUSTOMERID;
                             conn.end();
+                            
                             return resolve(member);
+                            }
                         }
                     });
                 }
