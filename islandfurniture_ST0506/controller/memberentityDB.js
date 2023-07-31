@@ -2,41 +2,22 @@ var express = require('express');
 var app = express();
 let middleware = require('./middleware');
 
-var member = require('../model/memberModel.js');
-app.get('/api/memberAuthState', middleware.checkToken, function (req, res) {
-    var email = req.query.email;
-    member.getMemberAuthState(email)
-        .then((result) => {
-            res.send(result);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).send("Failed to get member authentication state");
-        });
+const app = express();
+const member = require('./model/memberModel.js');
+
+app.get('/api/memberAuthState', middleware.checkToken, (req, res) => {
+    const email = req.query.email;
+    member.getMemberAuthState(email).then(res.send).catch(err => res.status(500).send('Failed to get member authentication state'));
 });
 
-app.get('/api/getMember', function (req, res) {
-    var email = req.query.email;
-    member.getMember(email)
-        .then((result) => {
-            return res.send(result);
-        })
-        .catch((err) => {
-            console.log(err);
-            return res.status(500).send("Failed to get member");
-        });
+app.get('/api/getMember', (req, res) => {
+    const email = req.query.email;
+    member.getMember(email).then(res.send).catch(err => res.status(500).send('Failed to get member'));
 });
 
-app.get('/api/getBoughtItem/:id', middleware.checkToken, function (req, res) {
-    var id = req.params.id;
-    member.getBoughtItem(id)
-        .then((result) => {
-            res.send(result);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).send("Failed to get bought items");
-        });
+app.get('/api/getBoughtItem/:id', middleware.checkToken, (req, res) => {
+    const id = req.params.id;
+    member.getBoughtItem(id).then(res.send).catch(err => res.status(500).send('Failed to get bought items'));
 });
 
 app.get('/api/checkMemberEmailExists', function (req, res) {
